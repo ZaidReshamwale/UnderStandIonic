@@ -1,0 +1,470 @@
+/* Multiverse Explorer: colours shared by the hero, the FAB and the status badges */
+:root {
+  --portal-green: #97ce4c;
+  --portal-cyan: #5eead4;
+  --space-deep: #0b1023;
+  --space-violet: #2e1065;
+  --status-alive: #22c55e;
+  --status-dead: #ef4444;
+  --status-unknown: #a1a1aa;
+}
+
+/* ---------- Hero banner ---------- */
+.explore-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 12px 16px 4px;
+  padding: 24px 20px;
+  border-radius: 24px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 85% 30%, rgba(151, 206, 76, 0.35), transparent 45%),
+    linear-gradient(135deg, var(--space-deep) 0%, #1e1b4b 55%, var(--space-violet) 100%);
+  box-shadow: 0 14px 30px rgba(30, 27, 75, 0.35);
+}
+
+/* A field of tiny stars painted with gradients */
+.explore-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, #fff, transparent),
+    radial-gradient(1px 1px at 32% 78%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 48% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 60% 85%, #fff, transparent),
+    radial-gradient(1px 1px at 22% 55%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 8% 85%, #fff, transparent),
+    radial-gradient(1px 1px at 42% 12%, #fff, transparent);
+  opacity: 0.7;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+/* The spinning green portal on the right */
+.portal {
+  position: absolute;
+  top: 50%;
+  right: -36px;
+  width: 150px;
+  height: 150px;
+  margin-top: -75px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+      var(--portal-green),
+      var(--portal-cyan),
+      #3f6212,
+      var(--portal-green),
+      #d9f99d,
+      var(--portal-green));
+  filter: blur(2px);
+  box-shadow:
+    0 0 40px rgba(151, 206, 76, 0.8),
+    inset 0 0 30px rgba(11, 16, 35, 0.6);
+  animation: portal-spin 6s linear infinite;
+}
+
+.portal::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ecfccb 0%, rgba(151, 206, 76, 0.4) 60%, transparent 70%);
+}
+
+.explore-hero> :not(.portal) {
+  position: relative;
+  max-width: 70%;
+}
+
+.explore-eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--portal-green);
+}
+
+.explore-hero h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.explore-subtitle {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ---------- Search + filter ---------- */
+.explore-controls {
+  padding: 4px 8px 8px;
+}
+
+.explore-controls ion-searchbar {
+  --border-radius: 14px;
+}
+
+.explore-controls ion-segment {
+  margin: 0 8px;
+  width: auto;
+}
+
+/* ---------- Card grid ---------- */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  /* Extra space at the bottom so the floating button never hides a card */
+  padding: 8px 16px 96px;
+}
+
+.character-card {
+  margin: 0;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1);
+  animation: card-in 0.45s ease backwards;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.character-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18);
+}
+
+.character-image {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.character-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.character-card:hover .character-image img {
+  transform: scale(1.06);
+}
+
+/* Soft shadow at the bottom of the photo */
+.character-image::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
+  pointer-events: none;
+}
+
+.status-pill {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #fff;
+  text-transform: capitalize;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-unknown);
+}
+
+.status-alive .status-dot {
+  background: var(--status-alive);
+  animation: pulse 1.8s ease-out infinite;
+}
+
+.status-dead .status-dot {
+  background: var(--status-dead);
+}
+
+.character-info {
+  padding: 10px 12px 14px;
+}
+
+.character-info h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.character-species {
+  margin: 2px 0 6px;
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+}
+
+.character-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+}
+
+.character-location span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.character-location ion-icon {
+  flex-shrink: 0;
+  color: var(--portal-green);
+}
+
+/* Skeleton placeholders use the same card shape */
+.skeleton-image {
+  aspect-ratio: 1 / 1;
+  height: auto;
+  margin: 0;
+}
+
+/* ---------- Empty and error states ---------- */
+.explore-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 32px;
+  text-align: center;
+  animation: card-in 0.4s ease backwards;
+}
+
+.explore-state ion-icon {
+  font-size: 64px;
+  color: var(--ion-color-medium);
+}
+
+.explore-state h2 {
+  margin: 12px 0 4px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.explore-state p {
+  margin: 0 0 16px;
+  color: var(--ion-color-medium);
+}
+
+/* ---------- Random character button ---------- */
+.random-fab {
+  --background: linear-gradient(135deg, var(--portal-green), #4d7c0f);
+  --background-activated: #4d7c0f;
+  --color: #fff;
+  --box-shadow: 0 8px 24px rgba(151, 206, 76, 0.55);
+}
+
+/* ---------- Detail sheet ---------- */
+.sheet-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  overflow: hidden;
+}
+
+/* The same photo, blown up and blurred, as a colourful backdrop */
+.sheet-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.4);
+  filter: blur(28px) saturate(1.5);
+  opacity: 0.85;
+}
+
+.sheet-avatar {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 12px;
+  right: 8px;
+  --color: #fff;
+  --background: rgba(15, 23, 42, 0.35);
+}
+
+.sheet-body {
+  padding: 16px 20px 32px;
+  text-align: center;
+}
+
+.sheet-body h2 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.sheet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.status-chip {
+  gap: 6px;
+  font-weight: 600;
+}
+
+.status-chip.status-alive {
+  --background: rgba(34, 197, 94, 0.15);
+  --color: var(--status-alive);
+}
+
+.status-chip.status-dead {
+  --background: rgba(239, 68, 68, 0.15);
+  --color: var(--status-dead);
+}
+
+.sheet-facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  text-align: left;
+}
+
+.sheet-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--ion-color-light);
+  color: var(--ion-color-light-contrast);
+  animation: card-in 0.4s ease backwards;
+}
+
+.sheet-fact:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.sheet-fact:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.sheet-fact:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.sheet-fact ion-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: var(--ion-color-primary);
+}
+
+.sheet-fact-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ion-color-medium);
+}
+
+.sheet-fact-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+/* ---------- Animations ---------- */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes portal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 0.85;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+
+  100% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Respect users who turn off animations in their OS settings */
+@media (prefers-reduced-motion: reduce) {
+
+  .portal,
+  .explore-hero::before,
+  .character-card,
+  .status-alive .status-dot,
+  .sheet-avatar,
+  .sheet-fact,
+  .explore-state {
+    animation: none;
+  }
+}
